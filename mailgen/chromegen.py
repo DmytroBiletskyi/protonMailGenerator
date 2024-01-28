@@ -82,34 +82,33 @@ def randomize(
 
 def verification():
     try:
-        pyautogui.locateCenterOnScreen("pictures\\get_verification_code.png", confidence=0.85)
-        pyautogui.hotkey("ctrlleft", "\t")
-        pyautogui.keyDown('ctrlleft'); pyautogui.typewrite('r'); pyautogui.keyUp('ctrlleft')
-        copy_button_x, copy_button_y = pyautogui.locateCenterOnScreen("imgs\\copy_button_img.PNG", confidence=0.85)
-        pyautogui.moveTo(copy_button_x, copy_button_y)
-        pyautogui.click()
-        newMail = True
-        while True:
-            if not newMail:
+        while pyautogui.locateCenterOnScreen("imgs\\learn_more.png", confidence=0.89):
+            pyautogui.hotkey("ctrlleft", "\t")
+            newMail = True
+            while True:
                 pyautogui.keyDown('ctrlleft'); pyautogui.typewrite('r'); pyautogui.keyUp('ctrlleft')
-                time.sleep(5)
-            newMail = getMail()
-            if newMail:
-                break
-        pyautogui.hotkey("ctrlleft", "shiftleft", '\t')
-        time.sleep(1)
-        pyautogui.hotkey("ctrlleft", "a")
-        pyautogui.press('backspace')
-        pyautogui.hotkey("ctrlleft", "v")
-        pyautogui.typewrite('\n')
-        time.sleep(3)
-        verification()
-    except Exception:
+                time.sleep(12)
+                # pyautogui.keyDown('ctrlleft'); pyautogui.typewrite('r'); pyautogui.keyUp('ctrlleft')
+                copy_button_x, copy_button_y = pyautogui.locateCenterOnScreen("imgs\\copy_button_img.png", confidence=0.89)
+                pyautogui.moveTo(copy_button_x, copy_button_y)
+                pyautogui.click()
+                newMail = getMail()
+                if newMail:
+                    break
+            pyautogui.hotkey("ctrlleft", "shiftleft", '\t')
+            time.sleep(1)
+            pyautogui.hotkey("ctrlleft", "a")
+            pyautogui.press('backspace')
+            pyautogui.hotkey("ctrlleft", "v")
+            pyautogui.typewrite('\n')
+            time.sleep(12)
+    except Exception as e:
+        print('verification', e)
         return True
 
 
 def main():
-    webbrowser.open('https://account.proton.me/signup?plan=free')
+    #webbrowser.open('https://account.proton.me/signup?plan=free')
     time.sleep(5)
 
     # Username
@@ -132,7 +131,7 @@ def main():
     time.sleep(10)
     pyautogui.typewrite('https://dropmail.me/\n')
 
-    time.sleep(10)
+    time.sleep(16)
 
     newMail = True
     while True:
@@ -155,29 +154,37 @@ def main():
     time.sleep(10)
 
     if verification():
-        pyautogui.hotkey("ctrlleft", "\t")
-        time.sleep(15)
+        try:
+            if pyautogui.locateCenterOnScreen("imgs\\verification_code.png", confidence=0.89):
+                print('verification passed')
+                pyautogui.hotkey("ctrlleft", "\t")
+                time.sleep(15)
 
-        code_x, code_y = pyautogui.locateCenterOnScreen("imgs\\verification_code_img.png", confidence=0.9)
-        pyautogui.doubleClick(code_x - 10, code_y + 15)
-        pyautogui.hotkey('ctrlleft', 'c')
-        pyautogui.hotkey('ctrlleft', 'shift', '\t')
-        time.sleep(5)
-        pyautogui.typewrite(str(getClip6digit()) + '\n')
+                code_x, code_y = pyautogui.locateCenterOnScreen("imgs\\verification_code_img.png", confidence=0.9)
+                pyautogui.doubleClick(code_x - 10, code_y + 15)
+                pyautogui.hotkey('ctrlleft', 'c')
+                pyautogui.hotkey('ctrlleft', 'shift', '\t')
+                time.sleep(5)
+                pyautogui.typewrite(str(getClip6digit()))
+                time.sleep(10)
+                pyautogui.typewrite('\n')
+                time.sleep(30)
+                pyautogui.typewrite('\n')
+                time.sleep(10)
+                pyautogui.typewrite('\t\t\t\n')
+                time.sleep(10)
+                pyautogui.typewrite('\t\n')
+                time.sleep(3)
+                pyautogui.typewrite('\t\n')
+                time.sleep(3)
+                pyautogui.typewrite('\t\n')
 
-        time.sleep(6)
-        pyautogui.typewrite('\n')
-        time.sleep(5)
-        pyautogui.typewrite('\t\t\n')
-        time.sleep(1)
-        pyautogui.typewrite('\t\n')
-        pyautogui.typewrite('\t\n')
+                print(_username_ + "@proton.me:" + _password_)
 
-        print(_username_ + "@proton.me:" + _password_)
-
-        with open("accLog.txt", "a") as logfile:
-            logfile.write(_username_ + "@proton.me:" + _password_ + "\n")
-
+                with open("accLog.txt", "a") as logfile:
+                    logfile.write(_username_ + "@proton.me:" + _password_ + "\n")
+        except Exception:
+            print('some error in the end')
 
 if __name__ == "__main__":
     CF_TEXT = 1
